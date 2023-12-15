@@ -19,11 +19,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 import toast from "react-hot-toast";
+import { UserAvatar } from "@/components/user-avatar";
 
 const MusicPage = () => {
   const proModal = useProModal();
   const router = useRouter();
   const [music, setMusic] = useState<string>();
+  const [prompt, setPrompt] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +39,7 @@ const MusicPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setMusic(undefined);
+      setPrompt(values.prompt);
 
       const response = await axios.post("/api/music", values);
 
@@ -101,6 +104,14 @@ const MusicPage = () => {
             </div>
           )}
           {!music && !isLoading && <Empty label="No music generated." />}
+          {music && !isLoading && (
+            <div className="flex flex-col-reverse gap-y-4">
+              <div className="p-8 w-full flex items-start gap-x-8 rounded-lg bg-white border border-black/10">
+                <UserAvatar />
+                <div className="text-sm">{prompt}</div>
+              </div>
+            </div>
+          )}
           {music && (
             <audio
               controls

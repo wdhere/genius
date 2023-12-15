@@ -28,10 +28,12 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 import toast from "react-hot-toast";
+import { UserAvatar } from "@/components/user-avatar";
 
 const ImagePage = () => {
   const proModal = useProModal();
   const router = useRouter();
+  const [prompt, setPrompt] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,6 +49,7 @@ const ImagePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setPrompt(values.prompt);
       setImages([]);
 
       const response = await axios.post("/api/image", values);
@@ -175,6 +178,14 @@ const ImagePage = () => {
           )}
           {images.length === 0 && !isLoading && (
             <Empty label="No images generated." />
+          )}
+          {images.length !== 0 && !isLoading && (
+            <div className="flex flex-col-reverse gap-y-4">
+              <div className="p-8 w-full flex items-start gap-x-8 rounded-lg bg-white border border-black/10">
+                <UserAvatar />
+                <div className="text-sm">{prompt}</div>
+              </div>
+            </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
             {images.map((src) => (

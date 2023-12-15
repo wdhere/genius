@@ -19,11 +19,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 import toast from "react-hot-toast";
+import { UserAvatar } from "@/components/user-avatar";
 
 const VideoPage = () => {
   const proModal = useProModal();
   const router = useRouter();
   const [video, setVideo] = useState<string>();
+  const [prompt, setPrompt] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +39,7 @@ const VideoPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setVideo(undefined);
+      setPrompt(values.prompt);
 
       const response = await axios.post("/api/video", values);
 
@@ -101,6 +104,14 @@ const VideoPage = () => {
             </div>
           )}
           {!video && !isLoading && <Empty label="No video generated." />}
+          {video && !isLoading && (
+            <div className="flex flex-col-reverse gap-y-4">
+              <div className="p-8 w-full flex items-start gap-x-8 rounded-lg bg-white border border-black/10">
+                <UserAvatar />
+                <div className="text-sm">{prompt}</div>
+              </div>
+            </div>
+          )}
           {video && (
             <video
               controls

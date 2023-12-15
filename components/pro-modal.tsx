@@ -120,7 +120,7 @@ export const ProModal = () => {
             variant="premium"
             className="w-full"
           >
-            Upgrage
+            Upgrade
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
         </DialogFooter>
