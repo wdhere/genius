@@ -8,6 +8,7 @@ import { checkSubscription } from "@/lib/subscription";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "https://api.chatanywhere.tech/v1",
 });
 
 const instructionMessage: ChatCompletionMessageParam = {
