@@ -43,8 +43,8 @@ export async function POST(req: Request) {
     }
 
     const response = await openai.images.generate({
+      // model: "dall-e-3",
       prompt,
-      model: "dall-e-3",
       n: parseInt(amount, 10),
       size: resolution,
     });
