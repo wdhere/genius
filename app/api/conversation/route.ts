@@ -7,7 +7,7 @@ import { checkSubscription } from "@/lib/subscription";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseUrl: "https://api.chatanywhere.tech/v1"
+  baseURL: "https://api.chatanywhere.tech/v1",
 });
 
 export async function POST(req: Request) {
